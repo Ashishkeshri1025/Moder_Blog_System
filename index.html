@@ -1,0 +1,1453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Blog</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        :root {
+            --navy: #1a1a1a;
+            --navy-light: #2d2d2d;
+            --warm-gray: #6b7280;
+            --accent: #dc2626;
+            --gold: #d97706;
+            --dark-red: #991b1b;
+        }
+
+        .navbar-brand {
+            color: var(--navy) !important;
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .nav-link {
+            color: var(--warm-gray) !important;
+            font-weight: 500;
+            position: relative;
+            transition: color 0.2s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--navy) !important;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 50%;
+            background-color: var(--accent);
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+            left: 0;
+        }
+
+        .hero-section {
+            background: linear-gradient(rgba(30, 41, 59, 0.7), rgba(30, 41, 59, 0.7)), url('https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=1200&h=600&fit=crop&crop=center');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: white;
+            padding: 5rem 0;
+        }
+
+        .blog-card {
+            transition: all 0.3s ease;
+            border: none;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .blog-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        .category-badge {
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: none;
+            color: white;
+            text-align: center;
+            padding: 2rem 1.5rem;
+            border-radius: 0.75rem;
+        }
+
+        .category-badge:hover {
+            transform: scale(1.05);
+        }
+
+        .gradient-bg-1 { background: linear-gradient(135deg, #1a1a1a, #2d2d2d); }
+        .gradient-bg-2 { background: linear-gradient(135deg, #374151, #4b5563); }
+        .gradient-bg-3 { background: linear-gradient(135deg, #dc2626, #991b1b); }
+        .gradient-bg-4 { background: linear-gradient(135deg, #d97706, #92400e); }
+        .gradient-bg-5 { background: linear-gradient(135deg, #7c2d12, #451a03); }
+        .gradient-bg-6 { background: linear-gradient(135deg, #6b7280, #4b5563); }
+        .gradient-bg-7 { background: linear-gradient(135deg, #374151, #1f2937); }
+        .gradient-bg-8 { background: linear-gradient(135deg, #4b5563, #374151); }
+
+        .card-img-top {
+            height: 200px;
+        }
+
+        .btn-accent {
+            background-color: var(--accent);
+            border-color: var(--accent);
+            color: white;
+        }
+
+        .btn-accent:hover {
+            background-color: var(--dark-red);
+            border-color: var(--dark-red);
+            color: white;
+        }
+
+        .text-navy {
+            color: var(--navy) !important;
+        }
+
+        .text-warm-gray {
+            color: var(--warm-gray) !important;
+        }
+
+        .bg-navy {
+            background-color: var(--navy) !important;
+        }
+
+        .badge-tech { background-color: var(--navy); }
+        .badge-lifestyle { background-color: #374151; }
+        .badge-travel { background-color: var(--gold); }
+        .badge-design { background-color: #4b5563; }
+        .badge-health { background-color: var(--accent); }
+        .badge-business { background-color: #6b7280; }
+        .badge-food { background-color: var(--dark-red); }
+        .badge-science { background-color: #374151; }
+
+        .form-control:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 0.2rem rgba(220, 38, 38, 0.25);
+        }
+
+        .form-select:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 0.2rem rgba(220, 38, 38, 0.25);
+        }
+
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+
+        .carousel-container {
+            overflow: hidden;
+            position: relative;
+        }
+
+        .carousel-inner-custom {
+            display: flex;
+            gap: 1.5rem;
+            padding-bottom: 1rem;
+            transition: transform 0.5s ease-in-out;
+            animation: autoScroll 15s infinite linear;
+        }
+
+        .carousel-item-custom {
+            flex: 0 0 320px;
+        }
+
+        @keyframes autoScroll {
+            0% {
+                transform: translateX(0);
+            }
+            20% {
+                transform: translateX(0);
+            }
+            25% {
+                transform: translateX(-336px);
+            }
+            45% {
+                transform: translateX(-336px);
+            }
+            50% {
+                transform: translateX(-672px);
+            }
+            70% {
+                transform: translateX(-672px);
+            }
+            75% {
+                transform: translateX(-1008px);
+            }
+            95% {
+                transform: translateX(-1008px);
+            }
+            100% {
+                transform: translateX(-1344px);
+            }
+        }
+
+        .carousel-container:hover .carousel-inner-custom {
+            animation-play-state: paused;
+        }
+
+        .upload-area {
+            transition: all 0.3s ease;
+        }
+
+        .upload-area:hover {
+            border-color: var(--accent) !important;
+            background-color: rgba(220, 38, 38, 0.05);
+        }
+
+        .stats-number {
+            background: linear-gradient(135deg, var(--accent), #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#" onclick="showHome()">ModernBlog</a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showHome()">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showCategories()">Categories</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showWrite()">Write</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showAuth()">Sign In</a>
+                    </li>
+                </ul>
+                
+                <div class="d-flex">
+                    <div class="input-group">
+                        <span class="input-group-text bg-white border-end-0">
+                            <i class="bi bi-search text-muted"></i>
+                        </span>
+                        <input type="text" class="form-control border-start-0" placeholder="Search posts...">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Home Page -->
+        <div id="homePage">
+            <!-- Hero Section -->
+            <section class="hero-section text-center">
+                <div class="container">
+                    <h1 class="display-2 fw-bold mb-4">Welcome to ModernBlog</h1>
+                    <p class="lead mb-4 fs-3">Discover stories, thinking, and expertise from writers on any topic.</p>
+                    <button class="btn btn-lg px-4 py-2" style="background-color: #dc2626; border-color: #dc2626; color: white;" onmouseover="this.style.backgroundColor='#991b1b'" onmouseout="this.style.backgroundColor='#dc2626'" onclick="showWrite()">Start Writing</button>
+                </div>
+            </section>
+
+            <!-- Statistics Section -->
+            <section class="py-5 bg-light">
+                <div class="container">
+                    <div class="row text-center g-4">
+                        <div class="col-md-4">
+                            <div class="p-4">
+                                <h2 class="h3 fw-bold text-dark mb-2">1,200+</h2>
+                                <p class="text-dark mb-0">Published Articles</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="p-4">
+                                <h2 class="h3 fw-bold text-dark mb-2">15K+</h2>
+                                <p class="text-dark mb-0">Active Readers</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="p-4">
+                                <h2 class="h3 fw-bold text-dark mb-2">98%</h2>
+                                <p class="text-dark mb-0">Reader Satisfaction</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Trending Now Section -->
+            <section class="py-5 bg-white">
+                <div class="container">
+                    <div class="text-center mb-5">
+                        <h2 class="h1 fw-bold text-navy mb-3">Trending Now</h2>
+                        <p class="lead text-warm-gray">Discover the most popular and engaging content from our community of writers</p>
+                    </div>
+                    <div class="carousel-container">
+                        <div class="carousel-inner-custom">
+                            <div class="carousel-item-custom">
+                                <div class="card blog-card h-100">
+                                    <img src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400&h=200&fit=crop&crop=center" alt="Digital Minimalism" class="card-img-top" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';">
+                                    <div class="card-body">
+                                        <span class="badge" style="background-color: #ef4444;">Trending</span>
+                                        <h5 class="card-title text-navy">The Art of Digital Minimalism</h5>
+                                        <p class="card-text text-warm-gray">How to declutter your digital life and focus on what truly matters...</p>
+                                        <div class="d-flex align-items-center text-muted small">
+                                            <span>Priya Sharma</span>
+                                            <span class="mx-2">•</span>
+                                            <span>6 min read</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="carousel-item-custom">
+                                <div class="card blog-card h-100">
+                                    <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=200&fit=crop&crop=center" alt="Meditation and Peace" class="card-img-top" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';">
+                                    <div class="card-body">
+                                        <span class="badge" style="background-color: #374151;">Spiritual</span>
+                                        <h5 class="card-title text-navy">Finding Inner Peace in Chaos</h5>
+                                        <p class="card-text text-warm-gray">Ancient wisdom meets modern challenges in this guide to spiritual wellness...</p>
+                                        <div class="d-flex align-items-center text-muted small">
+                                            <span>Arjun Patel</span>
+                                            <span class="mx-2">•</span>
+                                            <span>9 min read</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="carousel-item-custom">
+                                <div class="card blog-card h-100">
+                                    <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=400&h=200&fit=crop&crop=center" alt="Sustainable Living" class="card-img-top" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';">
+                                    <div class="card-body">
+                                        <span class="badge" style="background-color: #374151;">Environment</span>
+                                        <h5 class="card-title text-navy">Sustainable Living Made Simple</h5>
+                                        <p class="card-text text-warm-gray">Practical tips for reducing your environmental footprint without sacrificing comfort...</p>
+                                        <div class="d-flex align-items-center text-muted small">
+                                            <span>Kavya Reddy</span>
+                                            <span class="mx-2">•</span>
+                                            <span>8 min read</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="carousel-item-custom">
+                                <div class="card blog-card h-100">
+                                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=200&fit=crop&crop=center" alt="Daily Devotion" class="card-img-top" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';">
+                                    <div class="card-body">
+                                        <span class="badge" style="background-color: #dc2626;">Devotional</span>
+                                        <h5 class="card-title text-navy">Daily Reflections for Growth</h5>
+                                        <p class="card-text text-warm-gray">Transform your morning routine with these powerful devotional practices...</p>
+                                        <div class="d-flex align-items-center text-muted small">
+                                            <span>Ravi Kumar</span>
+                                            <span class="mx-2">•</span>
+                                            <span>5 min read</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="carousel-item-custom">
+                                <div class="card blog-card h-100">
+                                    <img src="https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=400&h=200&fit=crop&crop=center" alt="Cryptocurrency" class="card-img-top" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';">
+                                    <div class="card-body">
+                                        <span class="badge" style="background-color: #d97706;">Finance</span>
+                                        <h5 class="card-title text-navy">Cryptocurrency Basics</h5>
+                                        <p class="card-text text-warm-gray">Understanding digital currencies and blockchain technology for beginners...</p>
+                                        <div class="d-flex align-items-center text-muted small">
+                                            <span>Vikram Singh</span>
+                                            <span class="mx-2">•</span>
+                                            <span>10 min read</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Latest Articles -->
+            <section class="py-5">
+                <div class="container">
+                    <div class="text-center mb-5">
+                        <h2 class="h1 fw-bold text-navy mb-3">Latest Articles</h2>
+                        <p class="lead text-warm-gray">Fresh perspectives and insights from our community of writers</p>
+                    </div>
+                    <div class="row g-4">
+                        <div class="col-lg-4 col-md-6">
+                            <div class="card blog-card h-100">
+                                <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=400&h=200&fit=crop&crop=center" alt="UI Design" class="card-img-top" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';">
+                                <div class="card-body">
+                                    <span class="badge badge-design mb-3">Design</span>
+                                    <h5 class="card-title text-navy">Modern UI Design Principles</h5>
+                                    <p class="card-text text-warm-gray">Essential principles for creating beautiful and functional user interfaces...</p>
+                                </div>
+                                <div class="card-footer bg-transparent border-0">
+                                    <div class="d-flex justify-content-between align-items-center text-muted small">
+                                        <div>
+                                            <span>Ananya Gupta</span>
+                                            <span class="mx-2">•</span>
+                                            <span>8 min read</span>
+                                        </div>
+                                        <span>2 days ago</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 col-md-6">
+                            <div class="card blog-card h-100">
+                                <img src="https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=400&h=200&fit=crop&crop=center" alt="Better Sleep" class="card-img-top" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';">
+                                <div class="card-body">
+                                    <span class="badge badge-health mb-3">Health</span>
+                                    <h5 class="card-title text-navy">The Science of Better Sleep</h5>
+                                    <p class="card-text text-warm-gray">Evidence-based strategies for improving your sleep quality and overall health...</p>
+                                </div>
+                                <div class="card-footer bg-transparent border-0">
+                                    <div class="d-flex justify-content-between align-items-center text-muted small">
+                                        <div>
+                                            <span>Dr. Meera Joshi</span>
+                                            <span class="mx-2">•</span>
+                                            <span>10 min read</span>
+                                        </div>
+                                        <span>3 days ago</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 col-md-6">
+                            <div class="card blog-card h-100">
+                                <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=400&h=200&fit=crop&crop=center" alt="Remote Work" class="card-img-top" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';">
+                                <div class="card-body">
+                                    <span class="badge badge-business mb-3">Business</span>
+                                    <h5 class="card-title text-navy">Remote Work Best Practices</h5>
+                                    <p class="card-text text-warm-gray">How to build a productive and engaging remote work culture...</p>
+                                </div>
+                                <div class="card-footer bg-transparent border-0">
+                                    <div class="d-flex justify-content-between align-items-center text-muted small">
+                                        <div>
+                                            <span>Rohit Agarwal</span>
+                                            <span class="mx-2">•</span>
+                                            <span>6 min read</span>
+                                        </div>
+                                        <span>5 days ago</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 col-md-6">
+                            <div class="card blog-card h-100">
+                                <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=200&fit=crop&crop=center" alt="Meditation" class="card-img-top" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';">
+                                <div class="card-body">
+                                    <span class="badge" style="background-color: #374151;" class="mb-3">Spiritual</span>
+                                    <h5 class="card-title text-navy">Meditation for Beginners</h5>
+                                    <p class="card-text text-warm-gray">Simple techniques to start your mindfulness journey today...</p>
+                                </div>
+                                <div class="card-footer bg-transparent border-0">
+                                    <div class="d-flex justify-content-between align-items-center text-muted small">
+                                        <div>
+                                            <span>Guru Rajesh</span>
+                                            <span class="mx-2">•</span>
+                                            <span>7 min read</span>
+                                        </div>
+                                        <span>1 week ago</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 col-md-6">
+                            <div class="card blog-card h-100">
+                                <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=200&fit=crop&crop=center" alt="Home Workout" class="card-img-top" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';">
+                                <div class="card-body">
+                                    <span class="badge" style="background-color: #4b5563;" class="mb-3">Fitness</span>
+                                    <h5 class="card-title text-navy">Home Workout Revolution</h5>
+                                    <p class="card-text text-warm-gray">Effective exercises you can do anywhere without equipment...</p>
+                                </div>
+                                <div class="card-footer bg-transparent border-0">
+                                    <div class="d-flex justify-content-between align-items-center text-muted small">
+                                        <div>
+                                            <span>Kiran Malhotra</span>
+                                            <span class="mx-2">•</span>
+                                            <span>12 min read</span>
+                                        </div>
+                                        <span>1 week ago</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 col-md-6">
+                            <div class="card blog-card h-100">
+                                <img src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=400&h=200&fit=crop&crop=center" alt="Investment" class="card-img-top" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';">
+                                <div class="card-body">
+                                    <span class="badge" style="background-color: #d97706;" class="mb-3">Finance</span>
+                                    <h5 class="card-title text-navy">Smart Investment Strategies</h5>
+                                    <p class="card-text text-warm-gray">Building wealth through informed financial decisions...</p>
+                                </div>
+                                <div class="card-footer bg-transparent border-0">
+                                    <div class="d-flex justify-content-between align-items-center text-muted small">
+                                        <div>
+                                            <span>Suresh Nair</span>
+                                            <span class="mx-2">•</span>
+                                            <span>15 min read</span>
+                                        </div>
+                                        <span>2 weeks ago</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 col-md-6">
+                            <div class="card blog-card h-100">
+                                <img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=400&h=200&fit=crop&crop=center" alt="Relationships" class="card-img-top" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';">
+                                <div class="card-body">
+                                    <span class="badge" style="background-color: #7c2d12;" class="mb-3">Relationships</span>
+                                    <h5 class="card-title text-navy">Building Stronger Connections</h5>
+                                    <p class="card-text text-warm-gray">The art of meaningful relationships in the digital age...</p>
+                                </div>
+                                <div class="card-footer bg-transparent border-0">
+                                    <div class="d-flex justify-content-between align-items-center text-muted small">
+                                        <div>
+                                            <span>Dr. Pooja Verma</span>
+                                            <span class="mx-2">•</span>
+                                            <span>9 min read</span>
+                                        </div>
+                                        <span>2 weeks ago</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 col-md-6">
+                            <div class="card blog-card h-100">
+                                <img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=400&h=200&fit=crop&crop=center" alt="Online Learning" class="card-img-top" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';">
+                                <div class="card-body">
+                                    <span class="badge" style="background-color: #1a1a1a;" class="mb-3">Education</span>
+                                    <h5 class="card-title text-navy">Future of Online Learning</h5>
+                                    <p class="card-text text-warm-gray">How digital education is transforming the way we learn...</p>
+                                </div>
+                                <div class="card-footer bg-transparent border-0">
+                                    <div class="d-flex justify-content-between align-items-center text-muted small">
+                                        <div>
+                                            <span>Prof. Amit Sharma</span>
+                                            <span class="mx-2">•</span>
+                                            <span>11 min read</span>
+                                        </div>
+                                        <span>3 weeks ago</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 col-md-6">
+                            <div class="card blog-card h-100">
+                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=200&fit=crop&crop=center" alt="Morning Prayer" class="card-img-top" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';">
+                                <div class="card-body">
+                                    <span class="badge" style="background-color: #dc2626;" class="mb-3">Devotional</span>
+                                    <h5 class="card-title text-navy">Morning Prayer Practices</h5>
+                                    <p class="card-text text-warm-gray">Start your day with meaningful spiritual connection and reflection...</p>
+                                </div>
+                                <div class="card-footer bg-transparent border-0">
+                                    <div class="d-flex justify-content-between align-items-center text-muted small">
+                                        <div>
+                                            <span>Swami Krishnan</span>
+                                            <span class="mx-2">•</span>
+                                            <span>6 min read</span>
+                                        </div>
+                                        <span>3 weeks ago</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Categories Page -->
+        <div id="categoriesPage" class="d-none">
+            <section class="py-5 bg-white">
+                <div class="container">
+                    <div class="text-center mb-5">
+                        <h1 class="display-4 fw-bold text-navy mb-3">Explore Categories</h1>
+                        <p class="lead text-warm-gray">Discover content across various topics and find exactly what interests you.</p>
+                    </div>
+                    
+                    <div class="row g-4 mb-5">
+                        <div class="col-lg-3 col-md-4 col-sm-6">
+                            <div class="category-badge gradient-bg-1" onclick="filterByCategory('technology')">
+                                <div class="fs-1 mb-2">💻</div>
+                                <h5 class="fw-semibold">Technology</h5>
+                                <small class="opacity-75">24 posts</small>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-3 col-md-4 col-sm-6">
+                            <div class="category-badge gradient-bg-2" onclick="filterByCategory('lifestyle')">
+                                <div class="fs-1 mb-2">🌱</div>
+                                <h5 class="fw-semibold">Lifestyle</h5>
+                                <small class="opacity-75">18 posts</small>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-3 col-md-4 col-sm-6">
+                            <div class="category-badge gradient-bg-3" onclick="filterByCategory('travel')">
+                                <div class="fs-1 mb-2">✈️</div>
+                                <h5 class="fw-semibold">Travel</h5>
+                                <small class="opacity-75">32 posts</small>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-3 col-md-4 col-sm-6">
+                            <div class="category-badge gradient-bg-4" onclick="filterByCategory('design')">
+                                <div class="fs-1 mb-2">🎨</div>
+                                <h5 class="fw-semibold">Design</h5>
+                                <small class="opacity-75">15 posts</small>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-3 col-md-4 col-sm-6">
+                            <div class="category-badge gradient-bg-5" onclick="filterByCategory('health')">
+                                <div class="fs-1 mb-2">💪</div>
+                                <h5 class="fw-semibold">Health</h5>
+                                <small class="opacity-75">21 posts</small>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-3 col-md-4 col-sm-6">
+                            <div class="category-badge gradient-bg-6" onclick="filterByCategory('business')">
+                                <div class="fs-1 mb-2">📈</div>
+                                <h5 class="fw-semibold">Business</h5>
+                                <small class="opacity-75">19 posts</small>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-3 col-md-4 col-sm-6">
+                            <div class="category-badge gradient-bg-7" onclick="filterByCategory('food')">
+                                <div class="fs-1 mb-2">🍳</div>
+                                <h5 class="fw-semibold">Food</h5>
+                                <small class="opacity-75">27 posts</small>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-3 col-md-4 col-sm-6">
+                            <div class="category-badge gradient-bg-8" onclick="filterByCategory('science')">
+                                <div class="fs-1 mb-2">🔬</div>
+                                <h5 class="fw-semibold">Science</h5>
+                                <small class="opacity-75">13 posts</small>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 col-md-4 col-sm-6">
+                            <div class="category-badge" style="background: linear-gradient(135deg, #374151, #4b5563);" onclick="filterByCategory('spiritual')">
+                                <div class="fs-1 mb-2">🙏</div>
+                                <h5 class="fw-semibold">Spiritual</h5>
+                                <small class="opacity-75">31 posts</small>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 col-md-4 col-sm-6">
+                            <div class="category-badge" style="background: linear-gradient(135deg, #dc2626, #991b1b);" onclick="filterByCategory('devotional')">
+                                <div class="fs-1 mb-2">📿</div>
+                                <h5 class="fw-semibold">Devotional</h5>
+                                <small class="opacity-75">28 posts</small>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 col-md-4 col-sm-6">
+                            <div class="category-badge" style="background: linear-gradient(135deg, #4b5563, #374151);" onclick="filterByCategory('fitness')">
+                                <div class="fs-1 mb-2">🏃‍♂️</div>
+                                <h5 class="fw-semibold">Fitness</h5>
+                                <small class="opacity-75">22 posts</small>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 col-md-4 col-sm-6">
+                            <div class="category-badge" style="background: linear-gradient(135deg, #1a1a1a, #2d2d2d);" onclick="filterByCategory('education')">
+                                <div class="fs-1 mb-2">📚</div>
+                                <h5 class="fw-semibold">Education</h5>
+                                <small class="opacity-75">35 posts</small>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 col-md-4 col-sm-6">
+                            <div class="category-badge" style="background: linear-gradient(135deg, #7c2d12, #451a03);" onclick="filterByCategory('relationships')">
+                                <div class="fs-1 mb-2">💕</div>
+                                <h5 class="fw-semibold">Relationships</h5>
+                                <small class="opacity-75">26 posts</small>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 col-md-4 col-sm-6">
+                            <div class="category-badge" style="background: linear-gradient(135deg, #d97706, #92400e);" onclick="filterByCategory('finance')">
+                                <div class="fs-1 mb-2">💰</div>
+                                <h5 class="fw-semibold">Finance</h5>
+                                <small class="opacity-75">29 posts</small>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 col-md-4 col-sm-6">
+                            <div class="category-badge" style="background: linear-gradient(135deg, #374151, #1f2937);" onclick="filterByCategory('environment')">
+                                <div class="fs-1 mb-2">🌍</div>
+                                <h5 class="fw-semibold">Environment</h5>
+                                <small class="opacity-75">17 posts</small>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 col-md-4 col-sm-6">
+                            <div class="category-badge" style="background: linear-gradient(135deg, #6b7280, #4b5563);" onclick="filterByCategory('entertainment')">
+                                <div class="fs-1 mb-2">🎬</div>
+                                <h5 class="fw-semibold">Entertainment</h5>
+                                <small class="opacity-75">33 posts</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="categoryPosts" class="row g-4">
+                        <!-- Posts will be filtered and displayed here -->
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Authentication Page -->
+        <div id="authPage" class="d-none">
+            <section class="py-5 min-vh-100 bg-light">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-5 col-md-7">
+                            <div class="card shadow-lg border-0">
+                                <div class="card-body p-5">
+                                    <!-- Sign In Form -->
+                                    <div id="signInForm">
+                                        <div class="text-center mb-4">
+                                            <h1 class="h3 fw-bold text-navy mb-2">Welcome Back</h1>
+                                            <p class="text-warm-gray">Sign in to your ModernBlog account</p>
+                                        </div>
+                                        
+                                        <form id="loginForm">
+                                            <div class="mb-3">
+                                                <label for="loginEmail" class="form-label fw-medium text-navy">Email Address</label>
+                                                <input type="email" class="form-control form-control-lg" id="loginEmail" placeholder="Enter your email" required>
+                                            </div>
+                                            
+                                            <div class="mb-4">
+                                                <label for="loginPassword" class="form-label fw-medium text-navy">Password</label>
+                                                <input type="password" class="form-control form-control-lg" id="loginPassword" placeholder="Enter your password" required>
+                                            </div>
+                                            
+                                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="rememberMe">
+                                                    <label class="form-check-label text-warm-gray" for="rememberMe">
+                                                        Remember me
+                                                    </label>
+                                                </div>
+                                                <a href="#" class="text-decoration-none" style="color: var(--accent);">Forgot password?</a>
+                                            </div>
+                                            
+                                            <button type="submit" class="btn w-100 py-3 fw-semibold" style="background-color: #374151; border-color: #374151; color: white;" onmouseover="this.style.backgroundColor='#1f2937'" onmouseout="this.style.backgroundColor='#374151'">Sign In</button>
+                                        </form>
+                                        
+                                        <div class="text-center mt-4">
+                                            <p class="text-warm-gray mb-0">Don't have an account? 
+                                                <a href="#" class="text-decoration-none fw-semibold" style="color: var(--accent);" onclick="showSignUp()">Sign up here</a>
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <!-- Sign Up Form -->
+                                    <div id="signUpForm" class="d-none">
+                                        <div class="text-center mb-4">
+                                            <h1 class="h3 fw-bold text-navy mb-2">Join ModernBlog</h1>
+                                            <p class="text-warm-gray">Create your account and start writing</p>
+                                        </div>
+                                        
+                                        <form id="registerForm">
+                                            <div class="mb-3">
+                                                <label for="registerUsername" class="form-label fw-medium text-navy">Username</label>
+                                                <input type="text" class="form-control form-control-lg" id="registerUsername" placeholder="Choose a username" required>
+                                                <div class="form-text">This will be displayed as your author name</div>
+                                            </div>
+                                            
+                                            <div class="mb-3">
+                                                <label for="registerEmail" class="form-label fw-medium text-navy">Email Address</label>
+                                                <input type="email" class="form-control form-control-lg" id="registerEmail" placeholder="Enter your email" required>
+                                            </div>
+                                            
+                                            <div class="mb-3">
+                                                <label for="registerPassword" class="form-label fw-medium text-navy">Password</label>
+                                                <input type="password" class="form-control form-control-lg" id="registerPassword" placeholder="Create a password" required>
+                                            </div>
+                                            
+                                            <div class="mb-4">
+                                                <label for="confirmPassword" class="form-label fw-medium text-navy">Confirm Password</label>
+                                                <input type="password" class="form-control form-control-lg" id="confirmPassword" placeholder="Confirm your password" required>
+                                            </div>
+
+                                            <div class="mb-4">
+                                                <label class="form-label fw-medium text-navy">Profile Picture</label>
+                                                <p class="text-warm-gray small mb-3">Upload a profile picture (optional)</p>
+                                                <div class="border border-2 border-dashed rounded-3 p-4 text-center upload-area" style="border-color: #e2e8f0 !important;" id="profileUploadArea">
+                                                    <div id="profileUploadPlaceholder">
+                                                        <div class="rounded-circle bg-light d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                                                            <i class="bi bi-person-plus fs-2 text-muted"></i>
+                                                        </div>
+                                                        <p class="text-warm-gray mb-2">Click to upload profile picture</p>
+                                                        <p class="text-muted small">PNG, JPG up to 2MB</p>
+                                                        <input type="file" id="profilePicture" class="d-none" accept="image/png,image/jpeg,image/jpg">
+                                                        <button type="button" class="btn btn-outline-primary btn-sm mt-2" onclick="document.getElementById('profilePicture').click()">Choose Photo</button>
+                                                    </div>
+                                                    <div id="profilePreview" class="d-none">
+                                                        <img id="profilePreviewImg" src="" alt="Profile Preview" class="rounded-circle mb-3" style="width: 80px; height: 80px; object-fit: cover;">
+                                                        <div>
+                                                            <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeProfilePicture()">Remove Photo</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="form-check mb-4">
+                                                <input class="form-check-input" type="checkbox" id="agreeTerms" required>
+                                                <label class="form-check-label text-warm-gray" for="agreeTerms">
+                                                    I agree to the <a href="#" class="text-decoration-none" style="color: var(--accent);">Terms of Service</a> and <a href="#" class="text-decoration-none" style="color: var(--accent);">Privacy Policy</a>
+                                                </label>
+                                            </div>
+                                            
+                                            <button type="submit" class="btn w-100 py-3 fw-semibold" style="background-color: #374151; border-color: #374151; color: white;" onmouseover="this.style.backgroundColor='#1f2937'" onmouseout="this.style.backgroundColor='#374151'">Create Account</button>
+                                        </form>
+                                        
+                                        <div class="text-center mt-4">
+                                            <p class="text-warm-gray mb-0">Already have an account? 
+                                                <a href="#" class="text-decoration-none fw-semibold" style="color: var(--accent);" onclick="showSignIn()">Sign in here</a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Write Blog Page -->
+        <div id="writePage" class="d-none">
+            <section class="py-5 min-vh-100">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8">
+                            <div class="card shadow-lg border-0">
+                                <div class="card-body p-5">
+                                    <h1 class="h2 fw-bold text-navy mb-4 text-center">Write a New Post</h1>
+                                    
+                                    <form id="blogForm">
+                                        <div class="mb-4">
+                                            <label for="postTitle" class="form-label fw-medium text-navy">Title</label>
+                                            <input type="text" class="form-control form-control-lg" id="postTitle" placeholder="Enter your post title..." required>
+                                        </div>
+                                        
+                                        <div class="mb-4">
+                                            <label for="postCategory" class="form-label fw-medium text-navy">Category</label>
+                                            <select class="form-select form-select-lg" id="postCategory" required>
+                                                <option value="">Select a category</option>
+                                                <option value="technology">Technology</option>
+                                                <option value="lifestyle">Lifestyle</option>
+                                                <option value="travel">Travel</option>
+                                                <option value="design">Design</option>
+                                                <option value="health">Health</option>
+                                                <option value="business">Business</option>
+                                                <option value="food">Food</option>
+                                                <option value="science">Science</option>
+                                                <option value="spiritual">Spiritual</option>
+                                                <option value="devotional">Devotional</option>
+                                                <option value="fitness">Fitness</option>
+                                                <option value="education">Education</option>
+                                                <option value="relationships">Relationships</option>
+                                                <option value="finance">Finance</option>
+                                                <option value="environment">Environment</option>
+                                                <option value="entertainment">Entertainment</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="mb-4">
+                                            <label class="form-label fw-medium text-navy">Featured Image</label>
+                                            <p class="text-warm-gray small mb-3">Add a cover image to make your post more engaging</p>
+                                            <div class="border border-2 border-dashed rounded-3 p-5 text-center upload-area" style="border-color: #e2e8f0 !important;" id="imageUploadArea">
+                                                <div id="uploadPlaceholder">
+                                                    <i class="bi bi-cloud-upload fs-1 text-muted mb-3 d-block"></i>
+                                                    <p class="text-warm-gray mb-2">Click to upload or drag and drop</p>
+                                                    <p class="text-muted small">PNG, JPG up to 5MB</p>
+                                                    <input type="file" id="featuredImage" class="d-none" accept="image/png,image/jpeg,image/jpg">
+                                                    <button type="button" class="btn btn-outline-primary mt-2" onclick="document.getElementById('featuredImage').click()">Choose File</button>
+                                                </div>
+                                                <div id="imagePreview" class="d-none">
+                                                    <img id="previewImg" src="" alt="Preview" class="img-fluid rounded mb-3" style="max-height: 200px;">
+                                                    <div>
+                                                        <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeImage()">Remove Image</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="mb-4">
+                                            <label for="postExcerpt" class="form-label fw-medium text-navy">Excerpt</label>
+                                            <textarea class="form-control" id="postExcerpt" rows="3" placeholder="Write a brief description of your post..." required></textarea>
+                                        </div>
+                                        
+                                        <div class="mb-4">
+                                            <label for="postContent" class="form-label fw-medium text-navy">Content</label>
+                                            <textarea class="form-control" id="postContent" rows="12" placeholder="Write your post content here..." required></textarea>
+                                        </div>
+                                        
+                                        <div class="row g-4 pt-4">
+                                            <div class="col-md-8">
+                                                <div class="card border-0 bg-light">
+                                                    <div class="card-body">
+                                                        <h6 class="fw-bold text-navy mb-3">Publishing</h6>
+                                                        <p class="text-warm-gray small mb-3">Choose how you want to publish your post</p>
+                                                        <div class="d-flex flex-wrap gap-2">
+                                                            <button type="submit" class="btn btn-accent px-4">Publish Now</button>
+                                                            <button type="button" class="btn btn-outline-secondary px-4" onclick="saveDraft()">Save as Draft</button>
+                                                            <button type="button" class="btn btn-outline-primary px-4" onclick="previewPost()">Preview</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="card border-0 bg-light">
+                                                    <div class="card-body">
+                                                        <h6 class="fw-bold text-navy mb-3">Writing Tips</h6>
+                                                        <ul class="list-unstyled small text-warm-gray mb-0">
+                                                            <li class="mb-2"><strong>Engaging Title:</strong> Use clear, descriptive titles that capture attention</li>
+                                                            <li class="mb-2"><strong>Good Structure:</strong> Break content into sections with headers</li>
+                                                            <li class="mb-2"><strong>Add Value:</strong> Share actionable insights and personal experiences</li>
+                                                            <li class="mb-0"><strong>Proofread:</strong> Review for grammar and spelling before publishing</li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-navy text-white py-5">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="fw-bold mb-3">ModernBlog</h5>
+                    <p class="text-white-50">A platform for sharing stories, ideas, and expertise with the world.</p>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h6 class="fw-semibold mb-3">Categories</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-white-50 text-decoration-none">Technology</a></li>
+                        <li><a href="#" class="text-white-50 text-decoration-none">Lifestyle</a></li>
+                        <li><a href="#" class="text-white-50 text-decoration-none">Travel</a></li>
+                        <li><a href="#" class="text-white-50 text-decoration-none">Design</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h6 class="fw-semibold mb-3">Company</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-white-50 text-decoration-none">About</a></li>
+                        <li><a href="#" class="text-white-50 text-decoration-none">Contact</a></li>
+                        <li><a href="#" class="text-white-50 text-decoration-none">Privacy</a></li>
+                        <li><a href="#" class="text-white-50 text-decoration-none">Terms</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h6 class="fw-semibold mb-3">Connect</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-white-50 text-decoration-none">Twitter</a></li>
+                        <li><a href="#" class="text-white-50 text-decoration-none">LinkedIn</a></li>
+                        <li><a href="#" class="text-white-50 text-decoration-none">Instagram</a></li>
+                        <li><a href="#" class="text-white-50 text-decoration-none">RSS</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-4 border-secondary">
+            <div class="text-center text-white-50">
+                <p class="mb-0">&copy; 2025 ModernBlog. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Initialize with home page
+            showHome();
+
+            // Form submission with jQuery
+            $('#blogForm').on('submit', function(e) {
+                e.preventDefault();
+                publishPost();
+            });
+
+            // Authentication form handlers
+            $('#loginForm').on('submit', function(e) {
+                e.preventDefault();
+                handleSignIn();
+            });
+
+            $('#registerForm').on('submit', function(e) {
+                e.preventDefault();
+                handleSignUp();
+            });
+
+            // Smooth scrolling for anchor links
+            $('a[href^="#"]').on('click', function(e) {
+                e.preventDefault();
+                var target = $(this.getAttribute('href'));
+                if (target.length) {
+                    $('html, body').stop().animate({
+                        scrollTop: target.offset().top - 100
+                    }, 1000);
+                }
+            });
+        });
+
+        // Navigation functions using jQuery
+        function showHome() {
+            $('#homePage').removeClass('d-none');
+            $('#categoriesPage').addClass('d-none');
+            $('#writePage').addClass('d-none');
+            $('#authPage').addClass('d-none');
+            
+            // Update active nav link
+            $('.nav-link').removeClass('active');
+            $('.nav-link').first().addClass('active');
+        }
+
+        function showCategories() {
+            $('#homePage').addClass('d-none');
+            $('#categoriesPage').removeClass('d-none');
+            $('#writePage').addClass('d-none');
+            $('#authPage').addClass('d-none');
+            
+            // Update active nav link
+            $('.nav-link').removeClass('active');
+            $('.nav-link').eq(1).addClass('active');
+        }
+
+        function showWrite() {
+            $('#homePage').addClass('d-none');
+            $('#categoriesPage').addClass('d-none');
+            $('#writePage').removeClass('d-none');
+            $('#authPage').addClass('d-none');
+            
+            // Update active nav link
+            $('.nav-link').removeClass('active');
+            $('.nav-link').eq(2).addClass('active');
+        }
+
+        function showAuth() {
+            $('#homePage').addClass('d-none');
+            $('#categoriesPage').addClass('d-none');
+            $('#writePage').addClass('d-none');
+            $('#authPage').removeClass('d-none');
+            
+            // Show sign in form by default
+            showSignIn();
+            
+            // Update active nav link
+            $('.nav-link').removeClass('active');
+            $('.nav-link').eq(3).addClass('active');
+        }
+
+        function showSignIn() {
+            $('#signInForm').removeClass('d-none');
+            $('#signUpForm').addClass('d-none');
+        }
+
+        function showSignUp() {
+            $('#signInForm').addClass('d-none');
+            $('#signUpForm').removeClass('d-none');
+        }
+
+        // Category filtering with jQuery
+        function filterByCategory(category) {
+            const samplePosts = [
+                {
+                    category: 'technology',
+                    title: 'The Future of AI in Web Development',
+                    excerpt: 'How artificial intelligence is revolutionizing the way we build websites...',
+                    author: 'Rajesh Kumar',
+                    readTime: '8 min read',
+                    image: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=400&h=200&fit=crop&crop=center',
+                    badge: 'badge-tech'
+                },
+                {
+                    category: 'lifestyle',
+                    title: 'Minimalist Living: Less is More',
+                    excerpt: 'Discover the joy and freedom that comes with living with less...',
+                    author: 'Deepika Rao',
+                    readTime: '6 min read',
+                    image: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400&h=200&fit=crop&crop=center',
+                    badge: 'badge-lifestyle'
+                },
+                {
+                    category: 'spiritual',
+                    title: 'The Power of Daily Meditation',
+                    excerpt: 'Transform your life through consistent spiritual practice...',
+                    author: 'Spiritual Guide',
+                    readTime: '10 min read',
+                    image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=200&fit=crop&crop=center',
+                    badge: 'style="background-color: #7c3aed;"'
+                },
+                {
+                    category: 'devotional',
+                    title: 'Finding God in Everyday Moments',
+                    excerpt: 'Discovering the sacred in ordinary daily experiences...',
+                    author: 'Pastor John',
+                    readTime: '7 min read',
+                    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=200&fit=crop&crop=center',
+                    badge: 'style="background-color: #dc2626;"'
+                },
+                {
+                    category: 'fitness',
+                    title: 'Building Strength Without a Gym',
+                    excerpt: 'Effective bodyweight exercises for total fitness...',
+                    author: 'Fitness Trainer',
+                    readTime: '12 min read',
+                    image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=200&fit=crop&crop=center',
+                    badge: 'style="background-color: #059669;"'
+                }
+            ];
+
+            const filteredPosts = samplePosts.filter(post => post.category === category);
+            
+            const postsHtml = filteredPosts.map(post => `
+                <div class="col-lg-4 col-md-6">
+                    <div class="card blog-card h-100">
+                        <img src="${post.image}" alt="${post.title}" class="card-img-top" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';">
+                        <div class="card-body">
+                            <span class="badge ${post.badge.includes('badge-') ? post.badge : ''} mb-3 text-capitalize" ${!post.badge.includes('badge-') ? post.badge : ''}>${post.category}</span>
+                            <h5 class="card-title text-navy">${post.title}</h5>
+                            <p class="card-text text-warm-gray">${post.excerpt}</p>
+                        </div>
+                        <div class="card-footer bg-transparent border-0">
+                            <div class="d-flex align-items-center text-muted small">
+                                <span>${post.author}</span>
+                                <span class="mx-2">•</span>
+                                <span>${post.readTime}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            $('#categoryPosts').html(postsHtml);
+
+            // Animate the cards in
+            $('#categoryPosts .blog-card').each(function(index) {
+                $(this).css('opacity', '0').delay(index * 100).animate({opacity: 1}, 300);
+            });
+        }
+
+        // Blog publishing with jQuery
+        function publishPost() {
+            const title = $('#postTitle').val();
+            const category = $('#postCategory').val();
+            const excerpt = $('#postExcerpt').val();
+            const content = $('#postContent').val();
+
+            // Show success message with Bootstrap alert
+            const alertHtml = `
+                <div class="alert alert-success alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-3" style="z-index: 9999;" role="alert">
+                    <strong>Success!</strong> Post "${title}" has been published successfully!
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            `;
+            
+            $('body').prepend(alertHtml);
+            
+            // Clear form using jQuery
+            $('#blogForm')[0].reset();
+            removeImage();
+            
+            // Redirect to home after delay
+            setTimeout(() => {
+                showHome();
+                $('html, body').animate({scrollTop: 0}, 500);
+            }, 2000);
+        }
+
+        function saveDraft() {
+            // Show draft saved message
+            const alertHtml = `
+                <div class="alert alert-info alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-3" style="z-index: 9999;" role="alert">
+                    <strong>Draft saved!</strong> Your post has been saved as a draft.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            `;
+            
+            $('body').prepend(alertHtml);
+            
+            // Auto-dismiss after 3 seconds
+            setTimeout(() => {
+                $('.alert').alert('close');
+            }, 3000);
+        }
+
+        // Add smooth hover effects with jQuery
+        $(document).on('mouseenter', '.blog-card', function() {
+            $(this).addClass('shadow-lg');
+        }).on('mouseleave', '.blog-card', function() {
+            $(this).removeClass('shadow-lg');
+        });
+
+        // Add loading animation for category filtering
+        $(document).on('click', '.category-badge', function() {
+            $(this).append('<div class="spinner-border spinner-border-sm ms-2" role="status"></div>');
+            
+            setTimeout(() => {
+                $('.spinner-border').remove();
+            }, 500);
+        });
+
+        // Image upload functionality
+        $('#featuredImage').on('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                if (file.size > 5 * 1024 * 1024) {
+                    alert('File size must be less than 5MB');
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    $('#previewImg').attr('src', e.target.result);
+                    $('#uploadPlaceholder').addClass('d-none');
+                    $('#imagePreview').removeClass('d-none');
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Drag and drop functionality
+        $('#imageUploadArea').on('dragover', function(e) {
+            e.preventDefault();
+            $(this).addClass('border-primary bg-light');
+        }).on('dragleave', function(e) {
+            e.preventDefault();
+            $(this).removeClass('border-primary bg-light');
+        }).on('drop', function(e) {
+            e.preventDefault();
+            $(this).removeClass('border-primary bg-light');
+            
+            const files = e.originalEvent.dataTransfer.files;
+            if (files.length > 0) {
+                const file = files[0];
+                if (file.type.startsWith('image/')) {
+                    $('#featuredImage')[0].files = files;
+                    $('#featuredImage').trigger('change');
+                }
+            }
+        });
+
+        // Remove image function
+        function removeImage() {
+            $('#featuredImage').val('');
+            $('#uploadPlaceholder').removeClass('d-none');
+            $('#imagePreview').addClass('d-none');
+        }
+
+        // Profile picture upload functionality
+        $('#profilePicture').on('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                if (file.size > 2 * 1024 * 1024) {
+                    alert('Profile picture must be less than 2MB');
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    $('#profilePreviewImg').attr('src', e.target.result);
+                    $('#profileUploadPlaceholder').addClass('d-none');
+                    $('#profilePreview').removeClass('d-none');
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Profile picture drag and drop
+        $('#profileUploadArea').on('dragover', function(e) {
+            e.preventDefault();
+            $(this).addClass('border-primary bg-light');
+        }).on('dragleave', function(e) {
+            e.preventDefault();
+            $(this).removeClass('border-primary bg-light');
+        }).on('drop', function(e) {
+            e.preventDefault();
+            $(this).removeClass('border-primary bg-light');
+            
+            const files = e.originalEvent.dataTransfer.files;
+            if (files.length > 0) {
+                const file = files[0];
+                if (file.type.startsWith('image/')) {
+                    $('#profilePicture')[0].files = files;
+                    $('#profilePicture').trigger('change');
+                }
+            }
+        });
+
+        // Remove profile picture function
+        function removeProfilePicture() {
+            $('#profilePicture').val('');
+            $('#profileUploadPlaceholder').removeClass('d-none');
+            $('#profilePreview').addClass('d-none');
+        }
+
+        // Authentication handlers
+        function handleSignIn() {
+            const email = $('#loginEmail').val();
+            const password = $('#loginPassword').val();
+            
+            // Simulate authentication
+            if (email && password) {
+                // Store user session (in real app, this would be handled by backend)
+                localStorage.setItem('userEmail', email);
+                localStorage.setItem('isLoggedIn', 'true');
+                
+                // Show success message
+                const alertHtml = `
+                    <div class="alert alert-success alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-3" style="z-index: 9999;" role="alert">
+                        <strong>Welcome back!</strong> You have successfully signed in.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                `;
+                
+                $('body').prepend(alertHtml);
+                
+                // Clear form and redirect to home
+                $('#loginForm')[0].reset();
+                setTimeout(() => {
+                    showHome();
+                    updateNavForLoggedInUser();
+                }, 1500);
+            }
+        }
+
+        function handleSignUp() {
+            const username = $('#registerUsername').val();
+            const email = $('#registerEmail').val();
+            const password = $('#registerPassword').val();
+            const confirmPassword = $('#confirmPassword').val();
+            
+            // Validate passwords match
+            if (password !== confirmPassword) {
+                alert('Passwords do not match. Please try again.');
+                return;
+            }
+            
+            // Simulate registration
+            if (username && email && password) {
+                // Store user data (in real app, this would be handled by backend)
+                localStorage.setItem('userEmail', email);
+                localStorage.setItem('userName', username);
+                localStorage.setItem('isLoggedIn', 'true');
+                
+                // Show success message
+                const alertHtml = `
+                    <div class="alert alert-success alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-3" style="z-index: 9999;" role="alert">
+                        <strong>Account created!</strong> Welcome to ModernBlog, ${username}!
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                `;
+                
+                $('body').prepend(alertHtml);
+                
+                // Clear form and redirect to home
+                $('#registerForm')[0].reset();
+                removeProfilePicture();
+                setTimeout(() => {
+                    showHome();
+                    updateNavForLoggedInUser();
+                }, 1500);
+            }
+        }
+
+        function updateNavForLoggedInUser() {
+            const userName = localStorage.getItem('userName') || 'User';
+            $('.nav-link').eq(3).text(`Welcome, ${userName}`).off('click').on('click', function(e) {
+                e.preventDefault();
+                showUserProfile();
+            });
+        }
+
+        function showUserProfile() {
+            alert('Profile page would be displayed here with user settings and logout option.');
+        }
+
+        // Check if user is already logged in on page load
+        $(document).ready(function() {
+            if (localStorage.getItem('isLoggedIn') === 'true') {
+                updateNavForLoggedInUser();
+            }
+        });
+
+        // Preview post function
+        function previewPost() {
+            const title = $('#postTitle').val();
+            const category = $('#postCategory').val();
+            const excerpt = $('#postExcerpt').val();
+            
+            if (!title || !category || !excerpt) {
+                alert('Please fill in the required fields to preview your post.');
+                return;
+            }
+            
+            alert('Preview functionality would open your post in a new window for review.');
+        }
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'984c7e8071ea7a0d',t:'MTc1ODgyMzk5Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
